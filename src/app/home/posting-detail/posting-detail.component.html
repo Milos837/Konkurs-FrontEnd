@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="card mt-5">
+    <h5 class="card-header bg-secondary text-white">{{posting.name}}</h5>
+    <div class="card-body">
+
+      <div class="ml-4">
+        <h5 class="card-title">Datum postavljanja: {{posting.date}}</h5>
+        <h3 class="mt-4">Zaduzenja:</h3>
+        <ul>
+          <li *ngFor="let res of posting.responsibilities">{{res.responsibility}}</li>
+        </ul>
+
+        <h3 class="mt-4">Uslovi:</h3>
+        <ul>
+          <li *ngFor="let req of posting.requirements">{{req.requirement}}</li>
+        </ul>
+
+        <h3 class="mt-4">Nudimo:</h3>
+        <ul>
+          <li *ngFor="let o of posting.offering">{{o.offering}}</li>
+        </ul>
+      </div>
+
+      <div class="text-center">
+          <button type="button" class="btn btn-success mr-3" routerLink="/postings/{{posting.id}}/apply">Prijavi se</button>
+          <button type="button" class="btn btn-warning" (click)="goBack()" >Idi nazad</button>
+      </div>
+    </div>
+  </div>
+</div>
