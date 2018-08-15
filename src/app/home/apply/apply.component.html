@@ -186,8 +186,10 @@
         </div>
         <div class="col-md">
           <div class="float-right">
-            <div class="g-recaptcha" data-sitekey="6LdtEWoUAAAAACPWdBYqt89dHzOfi2lZwVIgOKTY"></div>
-            <div *ngIf="captchaFail" class="help-block text-danger">Molimo vas potvrdite da niste robot</div>
+
+            <!-- OVDE IDE CAPTCHA -->
+            <re-captcha (resolved)="resolved($event)" siteKey="6LdtEWoUAAAAACPWdBYqt89dHzOfi2lZwVIgOKTY"></re-captcha>
+
           </div>
         </div>
       </div>
@@ -199,7 +201,7 @@
     <hr>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-success mr-3" (click)="verify()">Posalji prijavu</button>
+      <button type="submit" class="btn btn-success mr-3" [disabled]="!captchaResolved" >Posalji prijavu</button>
       <button type="reset" class="btn btn-warning" (click)="goBack()">Odustani</button>
     </div>
 
@@ -222,8 +224,8 @@
     <div class="modal-body">
         <div class="form-group">
             <label for="newLanguage">Jezik:</label>
-            <select class="form-control" id="newLanguage" [(ngModel)]="newLanguage" name="newLanguage" required>
-              <option *ngFor="let l of allLanguages" [value]="l">{{l.language}} {{l.level}}</option>
+            <select class="form-control" id="newLanguage" [(ngModel)]="newLanguage.id" name="newLanguage" required>
+              <option *ngFor="let l of allLanguages" [value]="l.id">{{l.language}} {{l.level}}</option>
             </select>
           </div>
           <hr>

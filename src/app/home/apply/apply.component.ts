@@ -12,8 +12,6 @@ import { Application } from '../../../models/application';
 import { Candidate } from '../../../models/candidate';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-declare var grecaptcha: any;
-
 @Component({
   selector: 'app-apply',
   templateUrl: './apply.component.html',
@@ -27,7 +25,7 @@ export class ApplyComponent implements OnInit {
   languages: Language[];
   educations: Education[];
   certificates: Certificate[];
-  captchaFail: boolean;
+  captchaResolved: boolean;
   newLanguage: Language;
   allLanguages: Language[];
 
@@ -44,7 +42,7 @@ export class ApplyComponent implements OnInit {
     this.posting = new Posting();
     this.getCitizenships();
     this.getPosting();
-    this.captchaFail = false;
+    this.captchaResolved = false;
     this.application = new Application();
     this.application.candidate = new Candidate();
     this.application.candidate.citizenship = new Citizenship();
@@ -72,22 +70,20 @@ export class ApplyComponent implements OnInit {
 
   addLanguage(): void {
     this.languages.push(this.newLanguage);
+    console.log(JSON.stringify(this.newLanguage.id));
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  verify(): void {
-    this.captchaFail = false;
-    const response = grecaptcha.getResponse();
-    if (response.length === 0) {
-      this.captchaFail = true;
-    }
-  }
-
   apply(): void {
     console.log(JSON.stringify(this.application));
+  }
+
+  resolved(captchaResponse: string) {
+    this.captchaResolved = true;
+    console.log(`Resolved captcha with response ${captchaResponse}:`);
   }
 
 }

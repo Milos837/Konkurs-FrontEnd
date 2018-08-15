@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RecaptchaModule } from 'ng-recaptcha';
+import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
+import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
 
 import { AppComponent } from './app.component';
 import { PostingListComponent } from './home/posting-list/posting-list.component';
@@ -26,9 +29,16 @@ import { HttpClientModule } from '@angular/common/http';
     NgbModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    RecaptchaModule.forRoot(),
+    RecaptchaFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: RECAPTCHA_LANGUAGE,
+      useValue: 'sr'
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
