@@ -14,6 +14,8 @@ import { AppRoutingModule } from './/app-routing.module';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { ApplyComponent } from './home/apply/apply.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginFormComponent } from './login/login-form/login-form.component';
+import { AdminPostingListComponent } from './admin/admin-posting-list/admin-posting-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { HttpClientModule } from '@angular/common/http';
     PostingDetailComponent,
     NavbarComponent,
     NotFoundComponent,
-    ApplyComponent
+    ApplyComponent,
+    LoginFormComponent,
+    AdminPostingListComponent
   ],
   imports: [
     BrowserModule,

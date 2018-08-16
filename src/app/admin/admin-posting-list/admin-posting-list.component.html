@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="clearfix">
+        <h2 class="float-left mt-4 mb-4">Aktivni konkursi:</h2>
+    </div>
+    <!--  Tabela sa svim oglasima  -->
+    <table class="table table-striped table-hover tabela">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Naziv</th>
+          <th scope="col">Datum postavljanja</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let posting of postings">
+          <th class="clickable" scope="row" routerLink="/postings/{{posting.id}}">{{posting.id}}</th>
+          <td class="clickable" routerLink="/postings/{{posting.id}}">{{posting.name}}</td>
+          <td class="clickable" routerLink="/postings/{{posting.id}}">{{posting.date}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

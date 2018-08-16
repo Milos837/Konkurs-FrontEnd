@@ -1,0 +1,26 @@
+<div class="singin">
+  <h2 class="text-center">Prijavljivanje</h2>
+  <form class="form form-signin" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+    <div class="form-group">
+      <label for="username">Korisničko ime:</label>
+      <input type="text" class="form-control" id="username" name="username" placeholder="Unesite korisničko ime ..." required [(ngModel)]="model.username"
+        #username="ngModel" autofocus>
+      <div *ngIf="f.submitted && !username.valid" class="help-block text-danger">Molimo vas unesite korisničko ime</div>
+    </div>
+    <div class="form-group">
+      <label for="password">Lozinka:</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="Unesite lozinku ..." required [(ngModel)]="model.password"
+        #password="ngModel">
+      <div *ngIf="f.submitted && !password.valid" class="help-block text-danger">Molimo vas unesite lozinku</div>
+    </div>
+    <div class="text-center" *ngIf="loading">
+      <img src="../../assets/img/loading.gif" height="42" width="42">
+    </div>
+    <button [disabled]="loading" class="btn btn-block btn-success">Pošalji</button>
+    <small class="text-muted">Zaboravili ste šifru?
+      <a href="mailto:someone@example.com">Kontaktirajte admina.</a>
+    </small>
+    <div *ngIf="f.submitted && loginFailed" class="alert alert-danger mt-4 fade show">Pogrešno korisničko ime i/ili lozinka.</div>
+  </form>
+
+</div>

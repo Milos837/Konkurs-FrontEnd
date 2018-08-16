@@ -17,6 +17,17 @@
 
       </ul>
 
+      <div class="float-right">
+
+        <div *ngIf="!isLoggedIn()">
+            <button type="button" class="btn btn-secondary" routerLink="/login">Log in</button>
+        </div>
+        <div *ngIf="isLoggedIn()">
+            <button type="button" class="btn btn-secondary" routerLink="/login">Odjavi me</button>
+        </div>
+
+      </div>
+
 
     </div>
   </nav>

@@ -16,14 +16,14 @@ export class ApplicationService {
   constructor(private http: HttpClient) { }
 
   getCitizenships(): Observable<Citizenship[]> {
-    return this.http.get<any>(this.applicationsUrl + "/citizenships/");
+    return this.http.get<any>(this.applicationsUrl + "citizenships/no-security/");
   }
 
   getLanguages(): Observable<Language[]> {
-    return this.http.get<any>(this.applicationsUrl + "/languages/");
+    return this.http.get<any>(this.applicationsUrl + "languages/no-security/");
   }
 
   sendApplicaiton(newApplication: ApplicationDTO, postingId: number): Observable<ApplicationDTO> {
-    return this.http.post<any>(`${this.applicationsUrl}postings/${postingId}`, newApplication);
+    return this.http.post<any>(`${this.applicationsUrl}postings/${postingId}/no-security/`, newApplication);
   }
 }

@@ -18,23 +18,23 @@ export class PostingService {
   constructor(private http: HttpClient) { }
 
   getAllPostings(): Observable<Posting[]> {
-    return this.http.get<any>(this.postingUrl);
+    return this.http.get<any>(this.postingUrl + "no-security/");
   }
 
   getPosting(id: number): Observable<Posting> {
-    return this.http.get<any>(`${this.postingUrl}${id}`);
+    return this.http.get<any>(`${this.postingUrl}${id}/no-security/`);
   }
 
   getResponsibilitiesForPosting(id: number): Observable<Responsibilities[]> {
-    return this.http.get<any>(`${this.postingUrl}${id}/responsibilities/`).pipe(delay(50));
+    return this.http.get<any>(`${this.postingUrl}${id}/responsibilities/no-security/`).pipe(delay(50));
   }
 
   getRequirementsForPosting(id: number): Observable<Requirements[]> {
-    return this.http.get<any>(`${this.postingUrl}${id}/requirements/`).pipe(delay(75));;
+    return this.http.get<any>(`${this.postingUrl}${id}/requirements/no-security/`).pipe(delay(75));;
   }
 
   getOfferingForPosting(id: number): Observable<Offering[]> {
-    return this.http.get<any>(`${this.postingUrl}${id}/offering/`).pipe(delay(100));;
+    return this.http.get<any>(`${this.postingUrl}${id}/offering/no-security/`).pipe(delay(100));;
   }
 
 }
