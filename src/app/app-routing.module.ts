@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'postings', component: PostingListComponent },
   { path: 'postings/:id', component: PostingDetailComponent },
   { path: 'postings/:id/apply', component: ApplyComponent },
+  { path: '', redirectTo: '/postings', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
 ];
 

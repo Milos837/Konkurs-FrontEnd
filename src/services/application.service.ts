@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Citizenship } from '../models/citizenship';
 import { Language } from '../models/language';
+import { ApplicationDTO } from '../models/applicationdto';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,9 @@ export class ApplicationService {
 
   getLanguages(): Observable<Language[]> {
     return this.http.get<any>(this.applicationsUrl + "/languages/");
+  }
+
+  sendApplicaiton(newApplication: ApplicationDTO, postingId: number): Observable<ApplicationDTO> {
+    return this.http.post<any>(`${this.applicationsUrl}postings/${postingId}`, newApplication);
   }
 }

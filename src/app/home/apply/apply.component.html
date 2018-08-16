@@ -66,7 +66,7 @@
           <div class="form-group">
             <label for="citizenship">Drzavljanstvo:</label>
             <select class="form-control" id="citizenship" [(ngModel)]="application.candidate.citizenship" name="citizenship" required>
-              <option *ngFor="let c of citizenships" [value]="c.id">{{c.citizenship}}</option>
+              <option *ngFor="let c of citizenships" [ngValue]="c">{{c.citizenship}}</option>
             </select>
           </div>
         </div>
@@ -97,14 +97,12 @@
             <table *ngIf="languages.length !== 0" class="table table-bordered" id="languages">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col">Jezik</th>
                   <th scope="col">Nivo</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let language of languages">
-                  <th scope="row">{{language.id}}</th>
                   <td>{{language.language}}</td>
                   <td>{{language.level}}</td>
                 </tr>
@@ -118,24 +116,22 @@
         <div class="col-md">
           <div class="form-group">
             <label for="education">Skole:</label>
-            <table *ngIf="educations" class="table table-bordered" id="education">
+            <table *ngIf="educations.length !== 0" class="table table-bordered" id="education">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col">Ime skole</th>
                   <th scope="col">Napomena</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let e of educations">
-                  <th scope="row">{{e.id}}</th>
                   <td>{{e.schoolName}}</td>
                   <td>{{e.note}}</td>
                 </tr>
               </tbody>
             </table>
             <br>
-            <button type="button" class="btn btn-secondary">Dodaj</button>
+            <button type="button" class="btn btn-secondary" (click)="open(content1)">Dodaj</button>
           </div>
         </div>
       </div>
@@ -145,35 +141,33 @@
     <div class="form-group">
       <label for="candidateNote">Napomena:</label>
       <textarea class="w-100" name="candidateNote" id="candidateNote" rows="3" placeholder="Ako zelite unesite nesto o sebi ..."
-        [(ngModel)]="application.candidate.candidateNote" name="candidateNote"></textarea>
+        [(ngModel)]="application.candidate.note" name="candidateNote"></textarea>
     </div>
 
     <div class="form-group">
       <label for="certificates">Strucni radovi:</label>
-      <table *ngIf="certificates" class="table table-bordered" id="certificates">
+      <table *ngIf="certificates.length !== 0" class="table table-bordered" id="certificates">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Strucni rad:</th>
             <th scope="col">Napomena:</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let c of certificates">
-            <th scope="row">{{c.id}}</th>
             <td>{{c.certificate}}</td>
             <td>{{c.note}}</td>
           </tr>
         </tbody>
       </table>
       <br>
-      <button type="button" class="btn btn-secondary">Dodaj</button>
+      <button type="button" class="btn btn-secondary" (click)="open(content2)">Dodaj</button>
     </div>
 
     <div class="form-group">
       <label for="applicationNote">Motivaciono pismo:</label>
       <textarea class="w-100" name="applicationNote" id="applicationNote" rows="3" placeholder="Ukratko opisite zasto ste se prijavili za ovaj konkurs ..."
-        [(ngModel)]="application.candidate.applicationNote" name="applicationNote"></textarea>
+        [(ngModel)]="application.note" name="applicationNote"></textarea>
     </div>
 
     <div class="form-group">
@@ -187,7 +181,6 @@
         <div class="col-md">
           <div class="float-right">
 
-            <!-- OVDE IDE CAPTCHA -->
             <re-captcha (resolved)="resolved($event)" siteKey="6LdtEWoUAAAAACPWdBYqt89dHzOfi2lZwVIgOKTY"></re-captcha>
 
           </div>
@@ -201,7 +194,7 @@
     <hr>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-success mr-3" [disabled]="!captchaResolved" >Posalji prijavu</button>
+      <button type="submit" class="btn btn-success mr-3" (click)="sendApplication()" [disabled]="!captchaResolved">Posalji prijavu</button>
       <button type="reset" class="btn btn-warning" (click)="goBack()">Odustani</button>
     </div>
 
@@ -215,20 +208,82 @@
 
 <!--  Modal za dodavanje jezika  -->
 <ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header bg-light">
+    <h4 class="modal-title" id="modal-basic-title">Dodaj jezik</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form>
+        <div class="form-group">
+            <label for="newLanguage">Jezik:</label>
+            <select class="form-control" id="newLanguage" [(ngModel)]="newLanguage" name="newLanguage" required>
+              <option *ngFor="let l of allLanguages" [ngValue]="l">{{l.language}} {{l.level}}</option>
+            </select>
+          </div>
+          <div *ngIf="greska" class="alert alert-danger mt-4 fade show">Greška: jezik vec dodat.</div>
+          <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Jezik je uspešno dodat!</div>
+          <hr>
+          <button type="button" class="btn btn-success" (click)="addLanguage()" [disabled]="dodat">Dodaj</button>
+    </form>
+
+  </div>
+</ng-template>
+
+<!--  Modal za dodavanje skole  -->
+<ng-template #content1 let-c="close" let-d="dismiss">
+  <div class="modal-header bg-light">
+    <h4 class="modal-title" id="modal-basic-title">Dodaj skolu</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+        <div class="form-group">
+            <label for="schoolName">Ime obrazovne ustanove:</label>
+            <input type="text" class="form-control" id="schoolName" [(ngModel)]="newEducation.schoolName"
+            name="schoolName" placeholder="Unesite naziv skole koju pohadjate ili ste je zavrsili ..."
+              required>
+          </div>
+          <div class="form-group">
+            <label for="schoolNote">Napomena:</label>
+            <input type="text" class="form-control" id="schoolNote" [(ngModel)]="newEducation.note"
+            name="schoolNote" placeholder="Unesite napomenu ...">
+          </div>
+          <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Skola je uspešno dodata!</div>
+          <hr>
+          <button type="submit" class="btn btn-success" (click)="addEducation()" [disabled]="dodat">Dodaj</button>
+    </form>
+  </div>
+</ng-template>
+
+<!--  Modal za dodavanje strucnih radova  -->
+<ng-template #content2 let-c="close" let-d="dismiss">
     <div class="modal-header bg-light">
-      <h4 class="modal-title" id="modal-basic-title">Dodaj jezik</h4>
+      <h4 class="modal-title" id="modal-basic-title">Dodaj strucni rad</h4>
       <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-        <div class="form-group">
-            <label for="newLanguage">Jezik:</label>
-            <select class="form-control" id="newLanguage" [(ngModel)]="newLanguage.id" name="newLanguage" required>
-              <option *ngFor="let l of allLanguages" [value]="l.id">{{l.language}} {{l.level}}</option>
-            </select>
-          </div>
-          <hr>
-          <button type="button" class="btn btn-success" (click)="addLanguage()" >Dodaj</button>
+      <form>
+          <div class="form-group">
+              <label for="certificateName">Naziv strucnog rada:</label>
+              <input type="text" class="form-control" id="schoolName" [(ngModel)]="newCertificate.certificate"
+              name="certificateName" placeholder="Unesite naziv strucnog rada ..."
+                required>
+            </div>
+            <div class="form-group">
+              <label for="certificateNote">Napomena:</label>
+              <input type="text" class="form-control" id="certificateNote" [(ngModel)]="newCertificate.note"
+              name="certificateNote" placeholder="Unesite napomenu ...">
+            </div>
+            <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Strucni rad je uspešno dodat!</div>
+            <hr>
+            <button type="submit" class="btn btn-success" (click)="addCertificate()" [disabled]="dodat">Dodaj</button>
+      </form>
     </div>
   </ng-template>
