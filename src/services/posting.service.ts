@@ -7,6 +7,8 @@ import { Responsibilities } from '../models/responsibilities';
 import { Requirements } from '../models/requirements';
 import { Offering } from '../models/offering';
 import { delay } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { PostingDto } from '../models/postingdto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class PostingService {
 
   private postingUrl = environment.apiBaseUrl.concat('/postings/');
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getAllPostings(): Observable<Posting[]> {
     return this.http.get<any>(this.postingUrl + "no-security/");
@@ -35,6 +37,14 @@ export class PostingService {
 
   getOfferingForPosting(id: number): Observable<Offering[]> {
     return this.http.get<any>(`${this.postingUrl}${id}/offering/no-security/`).pipe(delay(100));;
+  }
+
+  deletePosting(id: number): Observable<Posting> {
+    return this.http.delete<any>(`${this.postingUrl}${id}`, {headers: this.authService.getHeaders()});
+  }
+
+  addPosting(newPosting: PostingDto): Observable<PostingDto> {
+    return this.http.post<any>(this.postingUrl, newPosting, {headers: this.authService.getHeaders()});
   }
 
 }

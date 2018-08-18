@@ -1,22 +1,104 @@
 <div class="container">
-    <div class="clearfix">
-        <h2 class="float-left mt-4 mb-4">Aktivni konkursi:</h2>
-    </div>
-    <!--  Tabela sa svim oglasima  -->
-    <table class="table table-striped table-hover tabela">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Naziv</th>
-          <th scope="col">Datum postavljanja</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let posting of postings">
-          <th class="clickable" scope="row" routerLink="/postings/{{posting.id}}">{{posting.id}}</th>
-          <td class="clickable" routerLink="/postings/{{posting.id}}">{{posting.name}}</td>
-          <td class="clickable" routerLink="/postings/{{posting.id}}">{{posting.date}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="clearfix">
+    <h2 class="float-left mt-4 mb-4">Aktivni konkursi:</h2>
+    <button type="button" class="btn btn-success float-right mt-4 mb-4" (click)="open(content)">Dodaj konkurs</button>
   </div>
+  <!--  Tabela sa svim oglasima  -->
+  <table class="table table-striped table-hover tabela">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Naziv</th>
+        <th scope="col">Datum postavljanja</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let posting of postings">
+        <th class="clickable" scope="row" routerLink="/admin/postings/{{posting.id}}/applications/">{{posting.id}}</th>
+        <td class="clickable" routerLink="/admin/postings/{{posting.id}}/applications/">{{posting.name}}</td>
+        <td class="clickable" routerLink="/admin/postings/{{posting.id}}/applications/">{{posting.date}}</td>
+        <td>
+          <button class="btn btn-secondary btn-sm float-right" (click)="deletePosting(posting.id, posting.name)">Ukloni</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--  Modal za dodavanje konkursa  -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header bg-light">
+    <h4 class="modal-title" id="modal-basic-title">Dodaj konkurs</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form ngNativeValidate #postingForm="ngForm" (ngSubmit)="addPosting(postingName.value)">
+      <div class="form-group">
+        <label for="postingName">Naziv konkursa:</label>
+        <input type="text" class="form-control" id="postingName" #postingName placeholder="Unesite naziv konkursa ..." required autofocus>
+      </div>
+
+      <div class="form-group">
+          <ul class="list-group">
+              <li class="list-group-item list-group-item-secondary">Zaduzenja:</li>
+              <li class="list-group-item" *ngFor="let res of responsibilities">{{res.responsibility}}</li>
+              <li class="list-group-item">
+                <form ngNativeValidate (ngSubmit)="addResponsibility(newResponsibility.value)">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" required #newResponsibility placeholder="Unesite novo zaduzenje ...">
+                    </div>
+                    <div class="col-md-3">
+                      <button type="submit" class="btn btn-secondary">Dodaj</button>
+                    </div>
+                  </div>
+                </form>
+              </li>
+            </ul>
+      </div>
+
+      <div class="form-group">
+          <ul class="list-group">
+              <li class="list-group-item list-group-item-secondary">Uslovi:</li>
+              <li class="list-group-item" *ngFor="let req of requirements">{{req.requirement}}</li>
+              <li class="list-group-item">
+                <form ngNativeValidate (ngSubmit)="addRequirement(newRequirement.value)">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" required #newRequirement placeholder="Unesite novi uslov ...">
+                    </div>
+                    <div class="col-md-3">
+                      <button type="submit" class="btn btn-secondary">Dodaj</button>
+                    </div>
+                  </div>
+                </form>
+              </li>
+            </ul>
+      </div>
+
+      <div class="form-group">
+          <ul class="list-group">
+              <li class="list-group-item list-group-item-secondary">Nudimo:</li>
+              <li class="list-group-item" *ngFor="let off of offering">{{off.offering}}</li>
+              <li class="list-group-item">
+                <form ngNativeValidate (ngSubmit)="addOffering(newOffering.value)">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" required #newOffering placeholder="Unesite sta nudite ...">
+                    </div>
+                    <div class="col-md-3">
+                      <button type="submit" class="btn btn-secondary">Dodaj</button>
+                    </div>
+                  </div>
+                </form>
+              </li>
+            </ul>
+      </div>
+      <div *ngIf="addedPosting" class="alert alert-success mt-4 fade show">Konkurs je uspešno dodat!</div><hr>
+      <button type="submit" class="btn btn-success" [disabled]="addedPosting">Sačuvaj</button>
+    </form>
+  </div>
+</ng-template>

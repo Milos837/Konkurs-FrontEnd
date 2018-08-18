@@ -3,8 +3,8 @@
   <form class="form form-signin" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
     <div class="form-group">
       <label for="username">Korisničko ime:</label>
-      <input type="text" class="form-control" id="username" name="username" placeholder="Unesite korisničko ime ..." required [(ngModel)]="model.username"
-        #username="ngModel" autofocus>
+      <input autofocus type="text" class="form-control" id="username" name="username" placeholder="Unesite korisničko ime ..." required [(ngModel)]="model.username"
+        #username="ngModel" >
       <div *ngIf="f.submitted && !username.valid" class="help-block text-danger">Molimo vas unesite korisničko ime</div>
     </div>
     <div class="form-group">

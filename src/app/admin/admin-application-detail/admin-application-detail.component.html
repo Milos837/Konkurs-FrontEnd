@@ -1,0 +1,143 @@
+<div class="row">
+  <div class="col-md-1">
+
+  </div>
+  <div class="col-md-3">
+    <div class="card mt-5">
+      <h5 class="card-header bg-secondary text-white">{{posting.name}}</h5>
+      <div class="card-body">
+
+        <div class="ml-4">
+          <h5 class="card-title">Datum postavljanja: {{posting.date}}</h5>
+          <h3 class="mt-4">Zaduzenja:</h3>
+          <ul>
+            <li *ngFor="let res of posting.responsibilities">{{res.responsibility}}</li>
+          </ul>
+
+          <h3 class="mt-4">Uslovi:</h3>
+          <ul>
+            <li *ngFor="let req of posting.requirements">{{req.requirement}}</li>
+          </ul>
+
+          <h3 class="mt-4">Nudimo:</h3>
+          <ul>
+            <li *ngFor="let o of posting.offering">{{o.offering}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button type="button" class="btn btn-warning" (click)="goBack()">Idi nazad</button>
+    </div>
+
+  </div>
+  <div class="col-md-7">
+
+    <div class="card detalji">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Detalji aplikacije sa ID: {{application.id}}</h4>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <form>
+              <div class="form-group row">
+                <label for="firstName" class="col-4 col-form-label">Ime</label>
+                <div class="col-8">
+                  <input id="firstName" name="firstName" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.firstName">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="lastName" class="col-4 col-form-label">Prezime</label>
+                <div class="col-8">
+                  <input id="lastName" name="lastName" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.lastName">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-4 col-form-label">Email</label>
+                <div class="col-8">
+                  <input id="email" name="email" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.email">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="gender" class="col-4 col-form-label">Pol</label>
+                <div class="col-8">
+                  <input id="gender" name="gender" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.gender">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="idNumber" class="col-4 col-form-label">Broj licne karte</label>
+                <div class="col-8">
+                  <input id="idNumber" name="idNumber" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.idNumber">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="ssn" class="col-4 col-form-label">JMBG</label>
+                <div class="col-8">
+                  <input id="ssn" name="ssn" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.ssn">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="citizenship" class="col-4 col-form-label">Drzavljanstvo</label>
+                <div class="col-8">
+                  <input id="citizenship" name="citizenship" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.citizenship.citizenship">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="language" class="col-4 col-form-label">Jezici</label>
+                <div class="col-8">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let l of languages">{{l.language}}, Nivo: {{l.level}}</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="educationLevel" class="col-4 col-form-label">Nivo obrazovanja</label>
+                <div class="col-8">
+                  <input id="educationLevel" name="educationLevel" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.educationLevel">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="education" class="col-4 col-form-label">Skole</label>
+                <div class="col-8">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let e of educations">{{e.schoolName}}, Napomena: {{e.note}}</li>
+                  </ul>
+                </div>
+              </div>
+              <hr>
+              <div class="form-group row">
+                <p class="col-4 col-form-label">O sebi</p>
+                <div class="col-8">
+                  <p id="candidateNote">{{application.candidate.note}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="form-group row">
+                <label for="certificates" class="col-4 col-form-label">Strucni radovi</label>
+                <div class="col-8">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let c of certificates">{{c.certificate}}, Napomena: {{c.note}}</li>
+                  </ul>
+                </div>
+              </div>
+              <hr>
+              <div class="form-group row">
+                <p class="col-4 col-form-label">Motivaciono pismo</p>
+                <div class="col-8">
+                  <p id="candidateNote">{{application.note}}</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

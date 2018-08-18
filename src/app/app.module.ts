@@ -16,6 +16,8 @@ import { ApplyComponent } from './home/apply/apply.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginFormComponent } from './login/login-form/login-form.component';
 import { AdminPostingListComponent } from './admin/admin-posting-list/admin-posting-list.component';
+import { AdminPostingApplicationsComponent } from './admin/admin-posting-applications/admin-posting-applications.component';
+import { AdminApplicationDetailComponent } from './admin/admin-application-detail/admin-application-detail.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { AdminPostingListComponent } from './admin/admin-posting-list/admin-post
     NotFoundComponent,
     ApplyComponent,
     LoginFormComponent,
-    AdminPostingListComponent
+    AdminPostingListComponent,
+    AdminPostingApplicationsComponent,
+    AdminApplicationDetailComponent
   ],
   imports: [
     BrowserModule,

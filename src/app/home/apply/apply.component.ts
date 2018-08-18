@@ -27,7 +27,6 @@ export class ApplyComponent implements OnInit {
   languages: Language[];
   educations: Education[];
   certificates: Certificate[];
-  captchaResolved: boolean;
   newLanguage: Language;
   allLanguages: Language[];
   newEducation: Education;
@@ -35,6 +34,7 @@ export class ApplyComponent implements OnInit {
   greska: boolean;
   dodat: boolean;
   newApplication: ApplicationDTO;
+  captcha: string;
 
   constructor(
     private postingService: PostingService,
@@ -51,7 +51,6 @@ export class ApplyComponent implements OnInit {
     this.posting = new Posting();
     this.getCitizenships();
     this.getPosting();
-    this.captchaResolved = false;
     this.application = new Application();
     this.application.candidate = new Candidate();
     this.application.candidate.citizenship = new Citizenship();
@@ -60,6 +59,7 @@ export class ApplyComponent implements OnInit {
     this.getAllLanguages();
     this.newEducation = new Education();
     this.newCertificate = new Certificate();
+    this.captcha = null;
   }
 
   open(content) {
@@ -90,7 +90,7 @@ export class ApplyComponent implements OnInit {
   }
 
   resolved(captchaResponse: string) {
-    this.captchaResolved = true;
+    this.captcha = captchaResponse;
     console.log(`Resolved captcha with response ${captchaResponse}:`);
   }
 
@@ -106,7 +106,10 @@ export class ApplyComponent implements OnInit {
   addLanguage(): void {
     if (!this.languageAlreadyAdded(this.newLanguage)) {
       this.greska = false;
-      this.languages.push(this.newLanguage);
+      let lang = new Language();
+      lang.language = this.newLanguage.language;
+      lang.level = this.newLanguage.level;
+      this.languages.push(lang);
       this.dodat = true;
     } else {
       this.greska = true;
@@ -115,11 +118,17 @@ export class ApplyComponent implements OnInit {
   }
 
   addEducation(): void {
-    this.educations.push(this.newEducation);
+    let ed = new Education();
+    ed.schoolName = this.newEducation.schoolName;
+    ed.note = this.newEducation.note;
+    this.educations.push(ed);
     this.dodat = true;
   }
 
   addCertificate(): void {
+    let cert = new Certificate();
+    cert.certificate = this.newCertificate.certificate;
+    cert.note = this.newCertificate.note;
     this.certificates.push(this.newCertificate);
     this.dodat = true;
   }

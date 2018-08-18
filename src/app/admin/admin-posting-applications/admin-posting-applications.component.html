@@ -1,0 +1,57 @@
+<div class="row sirina">
+  <div class="col-md-1">
+
+  </div>
+  <div class="col-md-3">
+    <div class="card mt-5">
+      <h5 class="card-header bg-secondary text-white">{{posting.name}}</h5>
+      <div class="card-body">
+
+        <div class="ml-4">
+          <h5 class="card-title">Datum postavljanja: {{posting.date}}</h5>
+          <h3 class="mt-4">Zaduzenja:</h3>
+          <ul>
+            <li *ngFor="let res of posting.responsibilities">{{res.responsibility}}</li>
+          </ul>
+
+          <h3 class="mt-4">Uslovi:</h3>
+          <ul>
+            <li *ngFor="let req of posting.requirements">{{req.requirement}}</li>
+          </ul>
+
+          <h3 class="mt-4">Nudimo:</h3>
+          <ul>
+            <li *ngFor="let o of posting.offering">{{o.offering}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <button type="button" class="btn btn-warning" (click)="goBack()" >Idi nazad</button>
+    </div>
+
+  </div>
+  <div class="col-md-7">
+      <div class="clearfix">
+          <h2 class="float-left mt-4 mb-4">Aplikacije:</h2>
+      </div>
+      <!--  Tabela sa svim aplikantima  -->
+      <table class="table table-striped table-hover tabela">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Ime i prezime</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let app of applications">
+            <th class="clickable" scope="row" routerLink="/admin/postings/{{posting.id}}/applications/{{app.id}}">{{app.id}}</th>
+            <td class="clickable" routerLink="/admin/postings/{{posting.id}}/applications/{{app.id}}">{{app.candidate.firstName}} {{app.candidate.lastName}}</td>
+            <td class="clickable" routerLink="/admin/postings/{{posting.id}}/applications/{{app.id}}">{{app.candidate.email}}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div>

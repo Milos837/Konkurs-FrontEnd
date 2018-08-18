@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-md">
           <label for="firstName">Ime:</label>
-          <input type="text" id="firstName" class="form-control" placeholder="Unesite ime ..." required [(ngModel)]="application.candidate.firstName"
+          <input autofocus type="text" id="firstName" class="form-control" placeholder="Unesite ime ..." required [(ngModel)]="application.candidate.firstName"
             name="firstName">
         </div>
         <div class="col-md">
@@ -22,7 +22,7 @@
     <div class="form-group">
       <span class="h6 mr-4">Pol:</span>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked [value]="'MALE'"
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked value="option1" [value]="'MALE'"
           [(ngModel)]="application.candidate.gender">
         <label class="form-check-label" for="exampleRadios1">
           Muski
@@ -174,8 +174,8 @@
       <div class="row">
         <div class="col-md">
           <div class="form-group">
-            <label for="cv">Okacite CV:</label>
-            <input type="file" class="form-control-file" id="cv">
+            <label for="cv">Okacite CV (u PDF formatu):</label>
+            <input type="file" class="form-control-file" accept="application/pdf" id="cv">
           </div>
         </div>
         <div class="col-md">
@@ -194,7 +194,7 @@
     <hr>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-success mr-3" (click)="sendApplication()" [disabled]="!captchaResolved">Posalji prijavu</button>
+      <button type="submit" class="btn btn-success mr-3" (click)="sendApplication()" [disabled]="captcha === null">Posalji prijavu</button>
       <button type="reset" class="btn btn-warning" (click)="goBack()">Odustani</button>
     </div>
 
@@ -216,17 +216,17 @@
   </div>
   <div class="modal-body">
 
-    <form>
-        <div class="form-group">
-            <label for="newLanguage">Jezik:</label>
-            <select class="form-control" id="newLanguage" [(ngModel)]="newLanguage" name="newLanguage" required>
-              <option *ngFor="let l of allLanguages" [ngValue]="l">{{l.language}} {{l.level}}</option>
-            </select>
-          </div>
-          <div *ngIf="greska" class="alert alert-danger mt-4 fade show">Greška: jezik vec dodat.</div>
-          <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Jezik je uspešno dodat!</div>
-          <hr>
-          <button type="button" class="btn btn-success" (click)="addLanguage()" [disabled]="dodat">Dodaj</button>
+    <form ngNativeValidate (ngSubmit)="addLanguage()">
+      <div class="form-group">
+        <label for="newLanguage">Jezik:</label>
+        <select class="form-control" id="newLanguage" [(ngModel)]="newLanguage" name="newLanguage" required>
+          <option *ngFor="let l of allLanguages" [ngValue]="l">{{l.language}} {{l.level}}</option>
+        </select>
+      </div>
+      <div *ngIf="greska" class="alert alert-danger mt-4 fade show">Greška: jezik vec dodat.</div>
+      <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Jezik je uspešno dodat!</div>
+      <hr>
+      <button type="submit" class="btn btn-success" [disabled]="dodat">Dodaj</button>
     </form>
 
   </div>
@@ -241,49 +241,45 @@
     </button>
   </div>
   <div class="modal-body">
-    <form>
-        <div class="form-group">
-            <label for="schoolName">Ime obrazovne ustanove:</label>
-            <input type="text" class="form-control" id="schoolName" [(ngModel)]="newEducation.schoolName"
-            name="schoolName" placeholder="Unesite naziv skole koju pohadjate ili ste je zavrsili ..."
-              required>
-          </div>
-          <div class="form-group">
-            <label for="schoolNote">Napomena:</label>
-            <input type="text" class="form-control" id="schoolNote" [(ngModel)]="newEducation.note"
-            name="schoolNote" placeholder="Unesite napomenu ...">
-          </div>
-          <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Skola je uspešno dodata!</div>
-          <hr>
-          <button type="submit" class="btn btn-success" (click)="addEducation()" [disabled]="dodat">Dodaj</button>
+    <form ngNativeValidate (ngSubmit)="addEducation()">
+      <div class="form-group">
+        <label for="schoolName">Ime obrazovne ustanove:</label>
+        <input type="text" class="form-control" id="schoolName" [(ngModel)]="newEducation.schoolName" name="schoolName" placeholder="Unesite naziv skole koju pohadjate ili ste je zavrsili ..."
+          required>
+      </div>
+      <div class="form-group">
+        <label for="schoolNote">Napomena:</label>
+        <input type="text" class="form-control" id="schoolNote" [(ngModel)]="newEducation.note" name="schoolNote" placeholder="Unesite napomenu ...">
+      </div>
+      <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Skola je uspešno dodata!</div>
+      <hr>
+      <button type="submit" class="btn btn-success" [disabled]="dodat">Dodaj</button>
     </form>
   </div>
 </ng-template>
 
 <!--  Modal za dodavanje strucnih radova  -->
 <ng-template #content2 let-c="close" let-d="dismiss">
-    <div class="modal-header bg-light">
-      <h4 class="modal-title" id="modal-basic-title">Dodaj strucni rad</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form>
-          <div class="form-group">
-              <label for="certificateName">Naziv strucnog rada:</label>
-              <input type="text" class="form-control" id="schoolName" [(ngModel)]="newCertificate.certificate"
-              name="certificateName" placeholder="Unesite naziv strucnog rada ..."
-                required>
-            </div>
-            <div class="form-group">
-              <label for="certificateNote">Napomena:</label>
-              <input type="text" class="form-control" id="certificateNote" [(ngModel)]="newCertificate.note"
-              name="certificateNote" placeholder="Unesite napomenu ...">
-            </div>
-            <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Strucni rad je uspešno dodat!</div>
-            <hr>
-            <button type="submit" class="btn btn-success" (click)="addCertificate()" [disabled]="dodat">Dodaj</button>
-      </form>
-    </div>
-  </ng-template>
+  <div class="modal-header bg-light">
+    <h4 class="modal-title" id="modal-basic-title">Dodaj strucni rad</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form ngNativeValidate (ngSubmit)="addCertificate()">
+      <div class="form-group">
+        <label for="certificateName">Naziv strucnog rada:</label>
+        <input type="text" class="form-control" id="schoolName" [(ngModel)]="newCertificate.certificate" name="certificateName" placeholder="Unesite naziv strucnog rada ..."
+          required>
+      </div>
+      <div class="form-group">
+        <label for="certificateNote">Napomena:</label>
+        <input type="text" class="form-control" id="certificateNote" [(ngModel)]="newCertificate.note" name="certificateNote" placeholder="Unesite napomenu ...">
+      </div>
+      <div *ngIf="dodat" class="alert alert-success mt-4 fade show">Strucni rad je uspešno dodat!</div>
+      <hr>
+      <button type="submit" class="btn btn-success" [disabled]="dodat">Dodaj</button>
+    </form>
+  </div>
+</ng-template>
