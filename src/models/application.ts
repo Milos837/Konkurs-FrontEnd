@@ -1,6 +1,6 @@
-import { Candidate } from "./candidate";
-import { Certificate } from "./certificate";
-import { Posting } from "./posting";
+import { Candidate } from './candidate';
+import { Certificate } from './certificate';
+import { Posting } from './posting';
 
 export class Application {
   id?: number;

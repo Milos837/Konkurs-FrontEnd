@@ -10,6 +10,7 @@ import { Citizenship } from '../../../models/citizenship';
 import { Language } from '../../../models/language';
 import { Education } from '../../../models/education';
 import { Certificate } from '../../../models/certificate';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-admin-application-detail',
@@ -44,6 +45,7 @@ export class AdminApplicationDetailComponent implements OnInit {
     this.getLanguages();
     this.getEducations();
     this.getCertificates();
+    console.log(JSON.stringify(this.application.id));
   }
 
   getPosting(): void {
@@ -88,6 +90,15 @@ export class AdminApplicationDetailComponent implements OnInit {
   getCertificates(): void {
     const appId = +this.route.snapshot.paramMap.get('appId');
     this.applicationService.getCertificatesForApplication(appId).subscribe(certificates => this.certificates = certificates);
+  }
+
+  downloadCv(): void {
+    const appId = +this.route.snapshot.paramMap.get('appId');
+    const fileName = this.application.candidate.firstName + '_' + this.application.candidate.lastName + '.pdf';
+    this.applicationService.downloadCv(fileName, appId).subscribe(
+      data => saveAs(data, fileName),
+        error => console.error(error)
+    );
   }
 
 }

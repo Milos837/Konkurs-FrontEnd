@@ -22,7 +22,7 @@
     <div class="form-group">
       <span class="h6 mr-4">Pol:</span>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked value="option1" [value]="'MALE'"
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" [value]="'MALE'"
           [(ngModel)]="application.candidate.gender">
         <label class="form-check-label" for="exampleRadios1">
           Muski
@@ -175,7 +175,8 @@
         <div class="col-md">
           <div class="form-group">
             <label for="cv">Okacite CV (u PDF formatu):</label>
-            <input type="file" class="form-control-file" accept="application/pdf" id="cv">
+            <input type="file" class="form-control-file" accept="application/pdf" id="cv" (change)="fileIsSelected()" >
+            <div *ngIf="invalidFile" class="help-block text-danger">Maksimalna velicina fajla je 10MB</div>
           </div>
         </div>
         <div class="col-md">
@@ -194,7 +195,8 @@
     <hr>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-success mr-3" (click)="sendApplication()" [disabled]="captcha === null">Posalji prijavu</button>
+      <button type="submit" class="btn btn-success mr-3" (click)="sendApplication()"
+      [disabled]="captcha === null || !fileSelected">Posalji prijavu</button>
       <button type="reset" class="btn btn-warning" (click)="goBack()">Odustani</button>
     </div>
 

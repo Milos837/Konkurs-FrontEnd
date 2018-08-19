@@ -1,4 +1,4 @@
-import { Candidate } from "./candidate";
+import { Candidate } from './candidate';
 
 export class Education {
   id?: number;

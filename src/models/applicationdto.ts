@@ -1,6 +1,6 @@
-import { LanguageDto } from "./languagedto";
-import { Education } from "./education";
-import { Certificate } from "./certificate";
+import { LanguageDto } from './languagedto';
+import { Education } from './education';
+import { Certificate } from './certificate';
 
 export class ApplicationDTO {
   firstName: string;

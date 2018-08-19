@@ -1,7 +1,7 @@
-import { Citizenship } from "./citizenship";
-import { Education } from "./education";
-import { Application } from "./application";
-import { CandidateLanguage } from "./candidateLanguage";
+import { Citizenship } from './citizenship';
+import { Education } from './education';
+import { Application } from './application';
+import { CandidateLanguage } from './candidateLanguage';
 
 export class Candidate {
   id?: number;

@@ -51,25 +51,25 @@ export class AdminPostingListComponent implements OnInit {
   }
 
   addResponsibility(res: string): void {
-    let newRes = new Responsibilities();
+    const newRes = new Responsibilities();
     newRes.responsibility = res;
     this.responsibilities.push(newRes);
   }
 
   addRequirement(req: string): void {
-    let newReq = new Requirements();
+    const newReq = new Requirements();
     newReq.requirement = req;
     this.requirements.push(newReq);
   }
 
   addOffering(off: string): void {
-    let newOff = new Offering();
+    const newOff = new Offering();
     newOff.offering = off;
     this.offering.push(newOff);
   }
 
   addPosting(postingName: string) {
-    let newPosting = new PostingDto();
+    const newPosting = new PostingDto();
     newPosting.name = postingName;
     newPosting.responsibilities = [];
     newPosting.requirements = [];

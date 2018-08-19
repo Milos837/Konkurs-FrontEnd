@@ -35,6 +35,9 @@ export class ApplyComponent implements OnInit {
   dodat: boolean;
   newApplication: ApplicationDTO;
   captcha: string;
+  fileSelected: boolean;
+  invalidFile: boolean;
+  selectedFile: File;
 
   constructor(
     private postingService: PostingService,
@@ -53,6 +56,7 @@ export class ApplyComponent implements OnInit {
     this.getPosting();
     this.application = new Application();
     this.application.candidate = new Candidate();
+    this.application.candidate.gender = 'MALE';
     this.application.candidate.citizenship = new Citizenship();
     this.application.posting = new Posting();
     this.newLanguage = new Language();
@@ -60,6 +64,30 @@ export class ApplyComponent implements OnInit {
     this.newEducation = new Education();
     this.newCertificate = new Certificate();
     this.captcha = null;
+    this.fileSelected = false;
+    this.invalidFile = false;
+    this.selectedFile = null;
+  }
+
+  fileIsSelected() {
+    let input: any, file: any;
+    input = document.getElementById('cv');
+    file = input.files[0];
+
+    if (file.size > 10000000) {
+      this.invalidFile = true;
+      this.fileSelected = false;
+    } else {
+      this.fileSelected = true;
+      this.invalidFile = false;
+      this.selectedFile = file;
+    }
+  }
+
+  uploadCv(appId: number) {
+    if (!this.invalidFile && this.fileSelected) {
+      this.applicationService.uploadCv(this.selectedFile, appId).subscribe(data => this.applicationSent());
+    }
   }
 
   open(content) {
@@ -85,10 +113,6 @@ export class ApplyComponent implements OnInit {
     this.location.back();
   }
 
-  apply(): void {
-    console.log(JSON.stringify(this.application));
-  }
-
   resolved(captchaResponse: string) {
     this.captcha = captchaResponse;
     console.log(`Resolved captcha with response ${captchaResponse}:`);
@@ -106,7 +130,8 @@ export class ApplyComponent implements OnInit {
   addLanguage(): void {
     if (!this.languageAlreadyAdded(this.newLanguage)) {
       this.greska = false;
-      let lang = new Language();
+      const lang = new Language();
+      lang.id = this.newLanguage.id;
       lang.language = this.newLanguage.language;
       lang.level = this.newLanguage.level;
       this.languages.push(lang);
@@ -118,7 +143,7 @@ export class ApplyComponent implements OnInit {
   }
 
   addEducation(): void {
-    let ed = new Education();
+    const ed = new Education();
     ed.schoolName = this.newEducation.schoolName;
     ed.note = this.newEducation.note;
     this.educations.push(ed);
@@ -126,7 +151,7 @@ export class ApplyComponent implements OnInit {
   }
 
   addCertificate(): void {
-    let cert = new Certificate();
+    const cert = new Certificate();
     cert.certificate = this.newCertificate.certificate;
     cert.note = this.newCertificate.note;
     this.certificates.push(this.newCertificate);
@@ -150,9 +175,9 @@ export class ApplyComponent implements OnInit {
     this.newApplication.certifications = [];
 
     for (const l of this.languages) {
-      let tempLanguage: LanguageDto = new LanguageDto();
+      const tempLanguage: LanguageDto = new LanguageDto();
       tempLanguage.languageId = l.id;
-      //dodaj note
+      // dodaj note
       this.newApplication.language.push(tempLanguage);
     }
     this.newApplication.educationLevel = this.application.candidate.educationLevel;
@@ -161,11 +186,11 @@ export class ApplyComponent implements OnInit {
     this.newApplication.certifications = this.certificates;
     this.newApplication.applicationNote = this.application.note;
 
-    this.applicationService.sendApplicaiton(this.newApplication, postingId).subscribe(data => this.applicationSent());
+    this.applicationService.sendApplicaiton(this.newApplication, postingId).subscribe(app => this.uploadCv(app.id));
   }
 
   applicationSent(): void {
-    alert("Aplikacija je uspesno poslata!");
+    alert('Aplikacija je uspesno poslata!');
     this.goBack();
   }
 

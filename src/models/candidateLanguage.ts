@@ -1,5 +1,5 @@
-import { Candidate } from "./candidate";
-import { Language } from "./language";
+import { Candidate } from './candidate';
+import { Language } from './language';
 
 export class CandidateLanguage {
   id?: number;

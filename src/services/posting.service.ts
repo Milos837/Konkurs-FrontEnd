@@ -20,7 +20,7 @@ export class PostingService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getAllPostings(): Observable<Posting[]> {
-    return this.http.get<any>(this.postingUrl + "no-security/");
+    return this.http.get<any>(this.postingUrl + 'no-security/');
   }
 
   getPosting(id: number): Observable<Posting> {
@@ -32,11 +32,11 @@ export class PostingService {
   }
 
   getRequirementsForPosting(id: number): Observable<Requirements[]> {
-    return this.http.get<any>(`${this.postingUrl}${id}/requirements/no-security/`).pipe(delay(75));;
+    return this.http.get<any>(`${this.postingUrl}${id}/requirements/no-security/`).pipe(delay(75));
   }
 
   getOfferingForPosting(id: number): Observable<Offering[]> {
-    return this.http.get<any>(`${this.postingUrl}${id}/offering/no-security/`).pipe(delay(100));;
+    return this.http.get<any>(`${this.postingUrl}${id}/offering/no-security/`).pipe(delay(100));
   }
 
   deletePosting(id: number): Observable<Posting> {
