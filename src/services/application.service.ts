@@ -52,16 +52,45 @@ export class ApplicationService {
     return this.http.get<any>(`${this.applicationsUrl}${appId}/certificates/`, {headers: this.authService.getHeaders()}).pipe(delay(100));
   }
 
-  uploadCv(file: File, appId: number): Observable<Boolean> {
+  uploadCv(file: File, appId: number): Observable<any> {
     const fd = new FormData();
     fd.append('file', file, file.name);
     return this.http.post<any>(`${this.applicationsUrl}${appId}/uploadCV/no-security/`, fd);
+  }
+
+  uploadMl(file: File, appId: number): Observable<any> {
+    const fd = new FormData();
+    fd.append('file', file, file.name);
+    return this.http.post<any>(`${this.applicationsUrl}${appId}/uploadML/no-security/`, fd);
+  }
+
+  uploadCL(file: File, appId: number): Observable<any> {
+    const fd = new FormData();
+    fd.append('file', file, file.name);
+    return this.http.post<any>(`${this.applicationsUrl}${appId}/uploadCL/no-security/`, fd);
   }
 
   downloadCv(file: string, appId: number) {
     const body = { filename: file };
 
     return this.http.post(`${this.applicationsUrl}${appId}/downloadCV/`, body, {
+      responseType: 'blob',
+      headers: this.authService.getHeaders()
+    });
+  }
+
+  downloadMl(file: string, appId: number) {
+    const body = { filename: file };
+    return this.http.post(`${this.applicationsUrl}${appId}/downloadML/`, body, {
+      responseType: 'blob',
+      headers: this.authService.getHeaders()
+    });
+  }
+
+  downloadCl(file: string, appId: number) {
+    const body = { filename: file };
+
+    return this.http.post(`${this.applicationsUrl}${appId}/downloadCL/`, body, {
       responseType: 'blob',
       headers: this.authService.getHeaders()
     });

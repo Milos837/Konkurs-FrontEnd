@@ -36,8 +36,14 @@ export class ApplyComponent implements OnInit {
   newApplication: ApplicationDTO;
   captcha: string;
   fileSelected: boolean;
-  invalidFile: boolean;
-  selectedFile: File;
+  invalidFile1: boolean;
+  selectedFile1: File;
+  invalidFile2: boolean;
+  selectedFile2: File;
+  invalidFile3: boolean;
+  selectedFile3: File;
+  fileSelected2: boolean;
+  fileSelected3: boolean;
 
   constructor(
     private postingService: PostingService,
@@ -65,8 +71,14 @@ export class ApplyComponent implements OnInit {
     this.newCertificate = new Certificate();
     this.captcha = null;
     this.fileSelected = false;
-    this.invalidFile = false;
-    this.selectedFile = null;
+    this.invalidFile1 = false;
+    this.selectedFile1 = null;
+    this.invalidFile2 = false;
+    this.selectedFile2 = null;
+    this.invalidFile3 = false;
+    this.selectedFile3 = null;
+    this.fileSelected2 = false;
+    this.fileSelected3 = false;
   }
 
   fileIsSelected() {
@@ -75,19 +87,64 @@ export class ApplyComponent implements OnInit {
     file = input.files[0];
 
     if (file.size > 10000000) {
-      this.invalidFile = true;
+      this.invalidFile1 = true;
       this.fileSelected = false;
     } else {
       this.fileSelected = true;
-      this.invalidFile = false;
-      this.selectedFile = file;
+      this.invalidFile1 = false;
+      this.selectedFile1 = file;
+    }
+  }
+
+  mlIsSelected() {
+    let input: any, file: any;
+    input = document.getElementById('ml');
+    file = input.files[0];
+
+    if (file.size > 10000000) {
+      this.invalidFile2 = true;
+      this.fileSelected2 = false;
+    } else {
+      this.fileSelected2 = true;
+      this.invalidFile2 = false;
+      this.selectedFile2 = file;
+    }
+  }
+
+  clIsSelected() {
+    let input: any, file: any;
+    input = document.getElementById('cl');
+    file = input.files[0];
+
+    if (file.size > 10000000) {
+      this.invalidFile3 = true;
+      this.fileSelected3 = false;
+    } else {
+      this.fileSelected3 = true;
+      this.invalidFile3 = false;
+      this.selectedFile3 = file;
     }
   }
 
   uploadCv(appId: number) {
-    console.log('stigao do upload cv');
-    if (!this.invalidFile && this.fileSelected) {
-      this.applicationService.uploadCv(this.selectedFile, appId).subscribe(data => this.applicationSent());
+    if (!this.invalidFile1 && this.fileSelected) {
+      this.applicationService.uploadCv(this.selectedFile1, appId).subscribe(data => this.uploadMl(appId));
+    }
+  }
+
+  uploadMl(appId: number) {
+    if (!this.invalidFile2 && this.fileSelected2) {
+      this.applicationService.uploadMl(this.selectedFile2, appId).subscribe(data => this.uploadCl(appId));
+    } else {
+      this.uploadCl(appId);
+    }
+  }
+
+  uploadCl(appId: number) {
+    if (!this.invalidFile3 && this.fileSelected3) {
+      this.applicationService.uploadCL(this.selectedFile3, appId).subscribe(data => this.applicationSent());
+    } else {
+      this.applicationSent();
     }
   }
 

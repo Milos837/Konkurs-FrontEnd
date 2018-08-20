@@ -101,4 +101,22 @@ export class AdminApplicationDetailComponent implements OnInit {
     );
   }
 
+  downloadMl(): void {
+    const appId = +this.route.snapshot.paramMap.get('appId');
+    const fileName = this.application.candidate.firstName + '_' + this.application.candidate.lastName + '_' + 'motivaciono' + '.pdf';
+    this.applicationService.downloadMl(fileName, appId).subscribe(
+      data => saveAs(data, fileName),
+        error => console.error(error)
+    );
+  }
+
+  downloadCl(): void {
+    const appId = +this.route.snapshot.paramMap.get('appId');
+    const fileName = this.application.candidate.firstName + '_' + this.application.candidate.lastName + '_' + 'propratno' + '.pdf';
+    this.applicationService.downloadCl(fileName, appId).subscribe(
+      data => saveAs(data, fileName),
+        error => console.error(error)
+    );
+  }
+
 }

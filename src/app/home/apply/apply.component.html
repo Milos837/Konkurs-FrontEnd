@@ -22,8 +22,7 @@
     <div class="form-group">
       <span class="h6 mr-4">Pol:</span>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" [value]="'MALE'"
-          [(ngModel)]="application.candidate.gender">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" [value]="'MALE'" [(ngModel)]="application.candidate.gender">
         <label class="form-check-label" for="exampleRadios1">
           Muski
         </label>
@@ -134,49 +133,55 @@
             <button type="button" class="btn btn-secondary" (click)="open(content1)">Dodaj</button>
           </div>
         </div>
+        <div class="col-md">
+          <div class="form-group">
+            <label for="certificates">Strucni radovi:</label>
+            <table *ngIf="certificates.length !== 0" class="table table-bordered" id="certificates">
+              <thead>
+                <tr>
+                  <th scope="col">Strucni rad:</th>
+                  <th scope="col">Napomena:</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let c of certificates">
+                  <td>{{c.certificate}}</td>
+                  <td>{{c.note}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <button type="button" class="btn btn-secondary" (click)="open(content2)">Dodaj</button>
+          </div>
+        </div>
       </div>
     </div>
 
 
     <div class="form-group">
       <label for="candidateNote">Napomena:</label>
-      <textarea class="w-100" name="candidateNote" id="candidateNote" rows="3" placeholder="Ako zelite unesite nesto o sebi ..."
+      <textarea class="w-100" name="candidateNote" id="candidateNote" rows="3" placeholder="Ako zelite unesite napomenu ..."
         [(ngModel)]="application.candidate.note" name="candidateNote"></textarea>
     </div>
 
-    <div class="form-group">
-      <label for="certificates">Strucni radovi:</label>
-      <table *ngIf="certificates.length !== 0" class="table table-bordered" id="certificates">
-        <thead>
-          <tr>
-            <th scope="col">Strucni rad:</th>
-            <th scope="col">Napomena:</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let c of certificates">
-            <td>{{c.certificate}}</td>
-            <td>{{c.note}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
-      <button type="button" class="btn btn-secondary" (click)="open(content2)">Dodaj</button>
-    </div>
-
-    <div class="form-group">
-      <label for="applicationNote">Motivaciono pismo:</label>
-      <textarea class="w-100" name="applicationNote" id="applicationNote" rows="3" placeholder="Ukratko opisite zasto ste se prijavili za ovaj konkurs ..."
-        [(ngModel)]="application.note" name="applicationNote"></textarea>
-    </div>
 
     <div class="form-group">
       <div class="row">
         <div class="col-md">
           <div class="form-group">
-            <label for="cv">Okacite CV (u PDF formatu):</label>
-            <input type="file" class="form-control-file" accept="application/pdf" id="cv" (change)="fileIsSelected()" >
-            <div *ngIf="invalidFile" class="help-block text-danger">Maksimalna velicina fajla je 10MB</div>
+            <label for="cv">Okacite CV (u PDF formatu)*:</label>
+            <input type="file" class="form-control-file" accept="application/pdf" id="cv" (change)="fileIsSelected()">
+            <div *ngIf="invalidFile1" class="help-block text-danger">Maksimalna velicina fajla je 10MB</div>
+          </div>
+          <div class="form-group">
+            <label for="ml">Okacite motivaciono pismo (u PDF formatu):</label>
+            <input type="file" class="form-control-file" accept="application/pdf" id="ml" (change)="mlIsSelected()">
+            <div *ngIf="invalidFile2" class="help-block text-danger">Maksimalna velicina fajla je 10MB</div>
+          </div>
+          <div class="form-group">
+            <label for="cl">Okacite propratno pismo (u PDF formatu):</label>
+            <input type="file" class="form-control-file" accept="application/pdf" id="cl" (change)="clIsSelected()">
+            <div *ngIf="invalidFile3" class="help-block text-danger">Maksimalna velicina fajla je 10MB</div>
           </div>
         </div>
         <div class="col-md">
@@ -195,8 +200,7 @@
     <hr>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-success mr-3"
-      [disabled]="captcha === null || !fileSelected">Posalji prijavu</button>
+      <button type="submit" class="btn btn-success mr-3" [disabled]="captcha === null || !fileSelected">Posalji prijavu</button>
       <button type="reset" class="btn btn-warning" (click)="goBack()">Odustani</button>
     </div>
 
