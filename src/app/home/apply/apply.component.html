@@ -1,7 +1,7 @@
 <div class="container">
 
   <h4 class="mb-3 mt-5">Prijava za konkurs {{posting.name}}</h4>
-  <form ngNativeValidate #applicationForm="ngForm" (submit)="apply()">
+  <form ngNativeValidate #applicationForm="ngForm" (submit)="sendApplication()">
 
 
     <div class="form-group">
@@ -195,7 +195,7 @@
     <hr>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-success mr-3" (click)="sendApplication()"
+      <button type="submit" class="btn btn-success mr-3"
       [disabled]="captcha === null || !fileSelected">Posalji prijavu</button>
       <button type="reset" class="btn btn-warning" (click)="goBack()">Odustani</button>
     </div>

@@ -58,7 +58,7 @@ export class ApplicationService {
     return this.http.post<any>(`${this.applicationsUrl}${appId}/uploadCV/no-security/`, fd);
   }
 
-  downloadCv(file: string, appId: number): Observable<any> {
+  downloadCv(file: string, appId: number) {
     const body = { filename: file };
 
     return this.http.post(`${this.applicationsUrl}${appId}/downloadCV/`, body, {

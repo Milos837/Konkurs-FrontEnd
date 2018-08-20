@@ -85,6 +85,7 @@ export class ApplyComponent implements OnInit {
   }
 
   uploadCv(appId: number) {
+    console.log('stigao do upload cv');
     if (!this.invalidFile && this.fileSelected) {
       this.applicationService.uploadCv(this.selectedFile, appId).subscribe(data => this.applicationSent());
     }
