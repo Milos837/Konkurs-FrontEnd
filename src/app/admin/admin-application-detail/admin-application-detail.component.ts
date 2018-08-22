@@ -96,7 +96,13 @@ export class AdminApplicationDetailComponent implements OnInit {
     const appId = +this.route.snapshot.paramMap.get('appId');
     const fileName = this.application.candidate.firstName + '_' + this.application.candidate.lastName + '.pdf';
     this.applicationService.downloadCv(fileName, appId).subscribe(
-      data => saveAs(data, fileName),
+      data => {
+        if (data.size === 0) {
+          alert('Aplikant nije okacio CV.');
+        } else {
+          saveAs(data, fileName);
+        }
+      },
         error => console.error(error)
     );
   }
@@ -105,7 +111,13 @@ export class AdminApplicationDetailComponent implements OnInit {
     const appId = +this.route.snapshot.paramMap.get('appId');
     const fileName = this.application.candidate.firstName + '_' + this.application.candidate.lastName + '_' + 'motivaciono' + '.pdf';
     this.applicationService.downloadMl(fileName, appId).subscribe(
-      data => saveAs(data, fileName),
+      data => {
+        if (data.size === 0) {
+          alert('Aplikant nije okacio motivaciono pismo.');
+        } else {
+          saveAs(data, fileName);
+        }
+      },
         error => console.error(error)
     );
   }
@@ -114,7 +126,13 @@ export class AdminApplicationDetailComponent implements OnInit {
     const appId = +this.route.snapshot.paramMap.get('appId');
     const fileName = this.application.candidate.firstName + '_' + this.application.candidate.lastName + '_' + 'propratno' + '.pdf';
     this.applicationService.downloadCl(fileName, appId).subscribe(
-      data => saveAs(data, fileName),
+      data => {
+        if (data.size === 0) {
+          alert('Aplikant nije okacio propratno pismo.');
+        } else {
+          saveAs(data, fileName);
+        }
+      },
         error => console.error(error)
     );
   }
