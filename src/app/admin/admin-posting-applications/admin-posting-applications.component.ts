@@ -14,6 +14,7 @@ import { ApplicationService } from '../../../services/application.service';
 export class AdminPostingApplicationsComponent implements OnInit {
   posting: Posting;
   applications: Application[];
+  searchTerm: string;
 
   constructor(
     private postingService: PostingService,
@@ -30,6 +31,7 @@ export class AdminPostingApplicationsComponent implements OnInit {
     this.getOffering();
     this.applications = [];
     this.getApplications();
+    this.searchTerm = '';
   }
 
   getPosting(): void {
