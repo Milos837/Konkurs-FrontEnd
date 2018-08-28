@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Application } from '../../../models/application';
 import { ApplicationService } from '../../../services/application.service';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-admin-posting-applications',
@@ -61,6 +62,20 @@ export class AdminPostingApplicationsComponent implements OnInit {
   getApplications(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.applicationService.getApplicationsForPosting(id).subscribe(applications => this.applications = applications);
+  }
+
+  downloadCv(appId: number, firstName: string, lastName: string) {
+    const fileName = firstName + '_' + lastName + '.pdf';
+    this.applicationService.downloadCv(fileName, appId).subscribe(
+      data => {
+        if (data.size === 0) {
+          alert('Aplikant nije okacio CV.');
+        } else {
+          saveAs(data, fileName);
+        }
+      },
+        error => console.error(error)
+    );
   }
 
 

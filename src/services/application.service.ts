@@ -10,6 +10,7 @@ import { Application } from '../models/application';
 import { Education } from '../models/education';
 import { delay } from 'rxjs/operators';
 import { Certificate } from '../models/certificate';
+import { EmailObject } from '../models/emailobject';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,10 @@ export class ApplicationService {
 
   getApplication(appId: number): Observable<Application> {
     return this.http.get<any>(`${this.applicationsUrl}${appId}`, {headers: this.authService.getHeaders()});
+  }
+
+  deleteApplication(appId: number): Observable<Application> {
+    return this.http.delete<any>(`${this.applicationsUrl}${appId}`, {headers: this.authService.getHeaders()});
   }
 
   getLanguagesForApplication(appId: number): Observable<Language[]> {
@@ -94,6 +99,10 @@ export class ApplicationService {
       responseType: 'blob',
       headers: this.authService.getHeaders()
     });
+  }
+
+  sendEmail(email: EmailObject): Observable<EmailObject> {
+    return this.http.post<any>(this.applicationsUrl + 'sendEmail/', email, {headers: this.authService.getHeaders()});
   }
 
 }

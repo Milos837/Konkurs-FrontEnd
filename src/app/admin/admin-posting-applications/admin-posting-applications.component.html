@@ -48,6 +48,7 @@
           <th scope="col">ID</th>
           <th scope="col">Ime i prezime</th>
           <th scope="col">Email</th>
+          <th scope="col">CV</th>
         </tr>
       </thead>
       <tbody>
@@ -59,6 +60,10 @@
               {{app.candidate.lastName}}
             </td>
             <td class="clickable" routerLink="/admin/postings/{{posting.id}}/applications/{{app.id}}">{{app.candidate.email}}</td>
+            <td>
+              <button class="btn btn-primary btn-sm"
+              (click)="downloadCv(app.id,app.candidate.firstName,app.candidateLastName)">Preuzmi</button>
+            </td>
           </ng-container>
         </tr>
       </tbody>

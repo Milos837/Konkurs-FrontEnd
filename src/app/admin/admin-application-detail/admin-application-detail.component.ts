@@ -3,7 +3,7 @@ import { Posting } from '../../../models/posting';
 import { Application } from '../../../models/application';
 import { PostingService } from '../../../services/posting.service';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService } from '../../../services/application.service';
 import { Candidate } from '../../../models/candidate';
 import { Citizenship } from '../../../models/citizenship';
@@ -11,6 +11,8 @@ import { Language } from '../../../models/language';
 import { Education } from '../../../models/education';
 import { Certificate } from '../../../models/certificate';
 import { saveAs } from 'file-saver/FileSaver';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EmailObject } from '../../../models/emailobject';
 
 @Component({
   selector: 'app-admin-application-detail',
@@ -24,12 +26,16 @@ export class AdminApplicationDetailComponent implements OnInit {
   languages: Language[];
   educations: Education[];
   certificates: Certificate[];
+  email: EmailObject;
+  emailPoslat: boolean;
+  loading: boolean;
 
   constructor(
     private postingService: PostingService,
     private location: Location,
     private route: ActivatedRoute,
-    private applicationService: ApplicationService
+    private applicationService: ApplicationService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -45,7 +51,16 @@ export class AdminApplicationDetailComponent implements OnInit {
     this.getLanguages();
     this.getEducations();
     this.getCertificates();
-    console.log(JSON.stringify(this.application.id));
+    this.email = new EmailObject();
+  }
+
+  open(content) {
+    this.email.to = this.application.candidate.email;
+    this.email.subject = '';
+    this.email.text = '';
+    this.emailPoslat = false;
+    this.loading = false;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true});
   }
 
   getPosting(): void {
@@ -75,6 +90,13 @@ export class AdminApplicationDetailComponent implements OnInit {
   getApplication(): void {
     const appId = +this.route.snapshot.paramMap.get('appId');
     this.applicationService.getApplication(appId).subscribe(application => this.application = application);
+  }
+
+  deleteApplication() {
+    const appId = +this.route.snapshot.paramMap.get('appId');
+    if (confirm('Da li ste sigurni da želite da uklonite aplikaciju?')) {
+      this.applicationService.deleteApplication(appId).subscribe(data => this.goBack());
+    }
   }
 
   getLanguages(): void {
@@ -134,6 +156,16 @@ export class AdminApplicationDetailComponent implements OnInit {
         }
       },
         error => console.error(error)
+    );
+  }
+
+  sendEmail() {
+    this.loading = true;
+    this.applicationService.sendEmail(this.email).subscribe(
+      data => {
+        this.emailPoslat = true;
+        this.loading = false;
+      }
     );
   }
 

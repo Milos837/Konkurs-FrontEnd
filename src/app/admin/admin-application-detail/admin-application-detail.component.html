@@ -88,14 +88,6 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="language" class="col-4 col-form-label">Jezici</label>
-                <div class="col-8">
-                  <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let l of languages">{{l.language}}, Nivo: {{l.level}}</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="form-group row">
                 <label for="educationLevel" class="col-4 col-form-label">Nivo obrazovanja</label>
                 <div class="col-8">
                   <input id="educationLevel" name="educationLevel" class="form-control here" type="text" disabled [(ngModel)]="application.candidate.educationLevel">
@@ -109,14 +101,14 @@
                   </ul>
                 </div>
               </div>
-              <hr>
               <div class="form-group row">
-                <p class="col-4 col-form-label">Napomena</p>
+                <label for="language" class="col-4 col-form-label">Jezici</label>
                 <div class="col-8">
-                  <p id="candidateNote">{{application.candidate.note}}</p>
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let l of languages">{{l.language}}, Nivo: {{l.level}}</li>
+                  </ul>
                 </div>
               </div>
-              <hr>
               <div class="form-group row">
                 <label for="certificates" class="col-4 col-form-label">Strucni radovi</label>
                 <div class="col-8">
@@ -127,16 +119,25 @@
               </div>
               <hr>
               <div class="form-group row">
-                <p class="col-4 col-form-label">Motivaciono pismo</p>
+                <p class="col-4 col-form-label">Napomena</p>
                 <div class="col-8">
-                  <p id="candidateNote">{{application.note}}</p>
+                  <p id="candidateNote">{{application.candidate.note}}</p>
                 </div>
               </div>
-              <div class="text-center">
-                <button type="button" class="btn btn-success mr-3" (click)="downloadCv()" >Preuzmi CV</button>
-                <button type="button" class="btn btn-success mr-3" (click)="downloadMl()" >Preuzmi MP</button>
-                <button type="button" class="btn btn-success" (click)="downloadCl()" >Preuzmi PP</button>
+              <hr>
+
+              <div class="clearfix">
+                <div class="float-left">
+                  <button type="button" class="btn btn-success mr-3" (click)="downloadCv()">Preuzmi CV</button>
+                  <button type="button" class="btn btn-success mr-3" (click)="downloadMl()">Preuzmi MP</button>
+                  <button type="button" class="btn btn-success" (click)="downloadCl()">Preuzmi PP</button>
+                </div>
+                <div class="float-right">
+                  <button type="button" class="btn btn-info mr-3" (click)="open(content)">Kontaktiraj</button>
+                  <button type="button" class="btn btn-danger" (click)="deleteApplication()" >Obrisi</button>
+                </div>
               </div>
+
             </form>
           </div>
         </div>
@@ -146,3 +147,37 @@
 
   </div>
 </div>
+
+<!-- Modal za slanje email-a -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Posalji email</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <form #form="ngForm" ngNativeValidate (ngSubmit)="sendEmail()" >
+      <div class="form-group">
+        <label for="to">Email adresa</label>
+        <input type="text" name="to" class="form-control here" disabled [(ngModel)]="email.to">
+      </div>
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" name="subject" class="form-control here" [(ngModel)]="email.subject" required>
+      </div>
+      <div class="form-group">
+        <label for="text">Poruka</label>
+        <textarea name="text" class="w-100 rounded" rows="10" [(ngModel)]="email.text" required></textarea>
+      </div>
+      <div *ngIf="emailPoslat" class="alert alert-success mt-4 fade show">Email je uspesno poslat!</div>
+      <hr>
+      <div class="text-center" *ngIf="loading">
+        <img src="../../assets/img/loading.gif" height="42" width="42">
+      </div>
+      <button type="submit" class="btn btn-success float-left" [disabled]="emailPoslat || loading">Posalji</button>
+    </form>
+
+  </div>
+</ng-template>
