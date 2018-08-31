@@ -98,6 +98,9 @@
                 <div class="col-8">
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let e of educations">{{e.schoolName}}, Napomena: {{e.note}}</li>
+                    <div *ngIf="educations.length === 0">
+                        <li class="list-group-item">Kandidat nije uneo ovaj podatak.</li>
+                      </div>
                   </ul>
                 </div>
               </div>
@@ -106,6 +109,9 @@
                 <div class="col-8">
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let l of languages">{{l.language}}, Nivo: {{l.level}}</li>
+                    <div *ngIf="languages.length === 0">
+                        <li class="list-group-item">Kandidat nije uneo ovaj podatak.</li>
+                      </div>
                   </ul>
                 </div>
               </div>
@@ -114,6 +120,9 @@
                 <div class="col-8">
                   <ul class="list-group">
                     <li class="list-group-item" *ngFor="let c of certificates">{{c.certificate}}, Napomena: {{c.note}}</li>
+                    <div *ngIf="certificates.length === 0">
+                        <li class="list-group-item">Kandidat nije uneo ovaj podatak.</li>
+                      </div>
                   </ul>
                 </div>
               </div>
@@ -122,6 +131,9 @@
                 <p class="col-4 col-form-label">Napomena</p>
                 <div class="col-8">
                   <p id="candidateNote">{{application.candidate.note}}</p>
+                  <div *ngIf="!application.candidate.note">
+                    <li class="list-group-item">Kandidat nije uneo ovaj podatak.</li>
+                  </div>
                 </div>
               </div>
               <hr>

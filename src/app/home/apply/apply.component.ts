@@ -44,6 +44,7 @@ export class ApplyComponent implements OnInit {
   selectedFile3: File;
   fileSelected2: boolean;
   fileSelected3: boolean;
+  sendingInProgress: boolean;
 
   constructor(
     private postingService: PostingService,
@@ -79,6 +80,7 @@ export class ApplyComponent implements OnInit {
     this.selectedFile3 = null;
     this.fileSelected2 = false;
     this.fileSelected3 = false;
+    this.sendingInProgress = false;
   }
 
   fileIsSelected() {
@@ -217,6 +219,8 @@ export class ApplyComponent implements OnInit {
   }
 
   sendApplication() {
+    this.sendingInProgress = true;
+
     const postingId = +this.route.snapshot.paramMap.get('id');
 
     this.newApplication = new ApplicationDTO();

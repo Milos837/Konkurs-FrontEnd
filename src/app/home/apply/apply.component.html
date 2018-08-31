@@ -9,12 +9,12 @@
         <div class="col-md">
           <label for="firstName">Ime:</label>
           <input autofocus type="text" id="firstName" class="form-control" placeholder="Unesite ime ..." required [(ngModel)]="application.candidate.firstName"
-            name="firstName">
+            name="firstName" minlength="2" maxlength="30" pattern="[a-zA-Z]*">
         </div>
         <div class="col-md">
           <label for="lastName">Prezime:</label>
           <input type="text" id="lastName" class="form-control" placeholder="Unesite prezime ..." required [(ngModel)]="application.candidate.lastName"
-            name="lastName">
+            name="lastName" minlength="2" maxlength="30" pattern="[a-zA-Z]*">
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
     <div class="form-group">
       <label for="email">Email addresa:</label>
       <input type="email" class="form-control" id="email" placeholder="Unesite email adresu ..." required [(ngModel)]="application.candidate.email"
-        name="email">
+        name="email" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
     </div>
 
     <div class="form-group">
@@ -47,12 +47,12 @@
         <div class="col-md">
           <label for="idNumber">Broj licne karte:</label>
           <input type="text" id="idNumber" class="form-control" placeholder="Unesite broj licne karte ..." required [(ngModel)]="application.candidate.idNumber"
-            name="idNumber">
+            name="idNumber" minlength="6" maxlength="6" pattern="[0-9]*">
         </div>
         <div class="col-md">
           <label for="ssn">JMBG:</label>
           <input type="text" id="ssn" class="form-control" placeholder="Unesite JMBG ..." required [(ngModel)]="application.candidate.ssn"
-            name="ssn">
+            name="ssn" minlength="11" maxlength="11" pattern="[0-9]*">
         </div>
       </div>
     </div>
@@ -200,7 +200,7 @@
     <hr>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-success mr-3" [disabled]="captcha === null || !fileSelected">Posalji prijavu</button>
+      <button type="submit" class="btn btn-success mr-3" [disabled]="captcha === null || !fileSelected || sendingInProgress">Posalji prijavu</button>
       <button type="reset" class="btn btn-warning" (click)="goBack()">Odustani</button>
     </div>
 
